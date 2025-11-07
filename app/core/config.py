@@ -21,8 +21,20 @@ class DatabaseConfig(BaseModel):
         "pk": "pk_%(table_name)s",
     }
 
+class AccessToken(BaseModel):
+    lifetime_seconds: int = 3600
+    reset_password_token_secret: str
+    verification_token_secret: str
+
+class ApiV1Prefix(BaseModel):
+    prefix: str = '/v1'
+    auth: str = '/auth'
+    users: str = '/users'
+    chat: str = '/chat'
+
 class ApiPrefix(BaseModel):
     prefix: str = '/api'
+    v1: ApiV1Prefix = ApiV1Prefix()
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
@@ -34,5 +46,6 @@ class Settings(BaseSettings):
     run: RunConfig = RunConfig()
     api: ApiPrefix = ApiPrefix()
     db: DatabaseConfig
+    access_token: AccessToken
 
 settings = Settings()

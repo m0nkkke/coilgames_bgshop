@@ -3,11 +3,16 @@ from fastapi import FastAPI
 
 from core.config import settings
 from db import db_helper
+from actions.create_superuser import create_superuser
 
 from api import router as api_router
 
 async def lifespan(app: FastAPI):
     # startup
+    
+    # first startup
+    # await create_superuser()
+
     yield
     # shutdown
     await db_helper.dispose
